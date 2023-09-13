@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie-edge">
+    <link rel="stylesheet" href="styles.css">
+    <script type="text/javascript" defer src="index.js"></script>
+    <title>Analog Clock</title>
+    <style>
+        *,*::before,*::after{
+  box-sizing: border-box;
+  font-family: Gotham Rounded, sans-serif;
+}
+body{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: rgb(28, 23, 51);
+  min-height: 90vh;
+}
+.clock{
+  height:450px;
+  width: 450px;
+  background: rgb(28, 23, 51);
+  border-radius: 50%;
+  border:10px solid rgb(28, 23, 54);
+  box-shadow: 20px 20px 50px rgba(126, 125, 125, 0.5),-20px -20px 50px rgba(74, 73, 73, 0.1);
+
+  position: relative;
+  box-shadow: 20px 20px 50px rgba(126, 125, 125, 0.5),-20px -20px 50px rgba(74, 73, 73, 0.1);
+}
+.clock .number{
+  --rotation:0;
+  position: absolute;
+  width: 100%;
+  height:100%;
+  text-align: center;
+  transform:rotate(var(--rotation));
+  font-weight: bold;
+  font-size: 50px;
+  color: white;
+}
+
+.clock .hand{
+  --rotation:0;
+  position: absolute;
+  background: white;
+  bottom: 50%;
+  left: 50%;
+  transform-origin: bottom;
+  transform: translateX(-50%) rotate(calc(var(--rotation)*1deg));
+  border: 1px solid white;
+
+}
+
+.clock::after{
+
+  content: "";
+  position: absolute;
+  background: white;
+  top:50%;
+  left:50%;
+  width:20px;
+  height:20px;
+  z-index: 8;
+  transform: translate(-50%,-50%);
+  border-radius: 50%;
+}
+
+.clock .second{
+  width: 3px;
+  height: 45%;
+  background: blue;
+  z-index: 2;
+  border: none;
+}
+
+
+.clock .minute{
+  width: 7px;
+  height: 40%;
+  background: white;
+  z-index: 1;
+  border: none;
+}
+
+
+.clock .hour{
+  width: 10px;
+  height: 31%;
+  background: red;
+  z-index: 0;
+  border: none;
+}
+    </style>
+  </head>
+  <body>
+    <div class="clock">
+      <div class="hand hour" data-hour-hand></div>
+      <div class="hand minute" data-minute-hand></div>
+      <div class="hand second" data-second-hand></div>
+      <div class="number number1" style="transform: rotate(0deg);">1</div>
+      <div class="number number2" style="transform: rotate(30deg);">2</div>
+      <div class="number number3" style="transform: rotate(60deg);">3</div>
+      <div class="number number4" style="transform: rotate(90deg);">4</div>
+      <div class="number number5" style="transform: rotate(120deg);">5</div>
+      <div class="number number6" style="transform: rotate(150deg);">6</div>
+      <div class="number number7" style="transform: rotate(180deg);">7</div>
+      <div class="number number8" style="transform: rotate(210deg);">8</div>
+      <div class="number number9" style="transform: rotate(240deg);">9</div>
+      <div class="number number10" style="transform: rotate(270deg);">10</div>
+      <div class="number number11" style="transform: rotate(300deg);">11</div>
+      <div class="number number12" style="transform: rotate(330deg);">12</div>
+      
+    </div>
+  </body>
+  <script>
+    
+setInterval(clock,1000);
+
+const hourHand=document.querySelector("[data-hour-hand]");
+const minuteHand=document.querySelector("[data-minute-hand]");
+const secondHand=document.querySelector("[data-second-hand]");
+
+function clock(){
+  const currentDate = new Date();
+  const secondsRatio= currentDate.getSeconds()/60;
+  const minutesRatio= (secondsRatio+currentDate.getMinutes())/60;
+  const hourRatio= (minutesRatio+currentDate.getHours())/12;
+  rotate(secondHand,secondsRatio);
+  rotate(minuteHand,minutesRatio);
+  rotate(hourHand,hourRatio);
+}
+
+function rotate(hand , value){
+  hand.style.setProperty("--rotation",value*360);
+}
+
+clock();
+  </script>
+</html>
